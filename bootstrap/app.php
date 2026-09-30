@@ -15,6 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [\App\Http\Middleware\SetLocale::class]);
         $middleware->alias(['admin' => \App\Http\Middleware\EnsureAdmin::class]);
         $middleware->encryptCookies(except: ['locale']);
+        // Bulk media script authenticates with the IMPORT_KEY header instead of a session.
+        $middleware->validateCsrfTokens(except: ['import/blob-token']);
         // Vercel terminates TLS in front of the PHP function.
         $middleware->trustProxies(at: '*');
     })

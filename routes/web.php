@@ -18,7 +18,6 @@ Route::get('/contact', [SiteController::class, 'contact'])->name('contact');
 Route::get('/lang/{locale}', [SiteController::class, 'locale'])->name('locale');
 
 Route::post('/import/blob-token', BlobUploadController::class)
-    ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class)
     ->middleware('throttle:120,1');
 
 Route::middleware('guest')->group(function () {
