@@ -8,7 +8,7 @@
         "api/index.php": {
             "runtime": "vercel-php@0.8.0",
             "maxDuration": 60,
-            "excludeFiles": "{node_modules/**,tests/**,.github/**,storage/app/**,database/database.sqlite,public/media/**,scripts/**}"
+            "excludeFiles": "{node_modules/**,tests/**,.github/**,storage/app/**,database/database.sqlite,public/media/**}"
         }
     },
     "routes": [
