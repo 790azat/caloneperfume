@@ -1,0 +1,48 @@
+{
+    "$schema": "https://openapi.vercel.sh/vercel.json",
+    "framework": null,
+    "buildCommand": "npm run build",
+    "outputDirectory": "public",
+  "regions": ["fra1"],
+    "functions": {
+        "api/index.php": {
+            "runtime": "vercel-php@0.8.0",
+            "maxDuration": 60,
+            "excludeFiles": "{node_modules/**,tests/**,.github/**,storage/app/**,database/database.sqlite,public/media/**,scripts/**}"
+        }
+    },
+    "routes": [
+        {
+            "src": "/build/(.*)",
+            "dest": "/build/$1",
+            "headers": {
+                "Cache-Control": "public, max-age=31536000, immutable"
+            }
+        },
+        {
+            "src": "/media/(.*)",
+            "dest": "/media/$1",
+            "headers": {
+                "Cache-Control": "public, max-age=31536000, immutable"
+            }
+        },
+        {
+            "src": "/(favicon\\.(?:ico|svg)|robots\\.txt|logo\\.(?:svg|png)|og\\.jpg)",
+            "dest": "/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/api/index.php"
+        }
+    ],
+    "env": {
+        "APP_CONFIG_CACHE": "/tmp/config.php",
+        "APP_EVENTS_CACHE": "/tmp/events.php",
+        "APP_PACKAGES_CACHE": "/tmp/packages.php",
+        "APP_ROUTES_CACHE": "/tmp/routes.php",
+        "APP_SERVICES_CACHE": "/tmp/services.php",
+        "VIEW_COMPILED_PATH": "/tmp",
+        "LOG_CHANNEL": "stderr",
+        "SESSION_DRIVER": "cookie"
+    }
+}

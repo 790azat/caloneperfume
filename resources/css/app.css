@@ -1,0 +1,144 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../vendor/livewire/livewire/src/**/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../views/**/*.blade.php';
+
+@theme {
+    --font-sans: 'Manrope', 'Noto Sans Armenian', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Cormorant Garamond', 'Noto Serif Armenian', ui-serif, Georgia, serif;
+
+    /* Default tokens: dark (admin panel, noir bands). The public site remaps them in .theme-lux. */
+    --color-ink-950: #120f0c;
+    --color-ink-900: #1a1612;
+    --color-ink-800: #241e19;
+    --color-ink-700: #30281f;
+    --color-ink-600: #40362b;
+    --color-gold-200: #f1e3c6;
+    --color-gold-300: #e3c793;
+    --color-gold-400: #d5b37a;
+    --color-gold-500: #c9a36a;
+    --color-gold-600: #a9854e;
+
+    --animate-marquee: marquee 60s linear infinite;
+    --animate-shine: shine 8s linear infinite;
+    --animate-float: float 9s ease-in-out infinite;
+    --animate-slow-zoom: slow-zoom 18s ease-out both;
+}
+
+@keyframes marquee {
+    from { transform: translateX(0) }
+    to { transform: translateX(-50%) }
+}
+
+@keyframes shine {
+    from { background-position: 0% 50% }
+    to { background-position: 200% 50% }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) }
+    50% { transform: translateY(-12px) }
+}
+
+@keyframes slow-zoom {
+    from { transform: scale(1.12) }
+    to { transform: scale(1) }
+}
+
+@layer base {
+    html { scroll-behavior: smooth; }
+    body { @apply bg-ink-950 text-stone-200 antialiased; }
+    ::selection { @apply bg-gold-500 text-ink-950; }
+    [x-cloak] { display: none !important; }
+
+    /* Public site: cream paper, warm ink and brushed gold. */
+    .theme-lux {
+        --color-ink-950: #f6f0e7;
+        --color-ink-900: #fffcf7;
+        --color-ink-800: #efe6d8;
+        --color-ink-700: #e5d8c3;
+        --color-ink-600: #d6c3a6;
+        --color-stone-50: #1c1611;
+        --color-stone-100: #231c16;
+        --color-stone-200: #30271f;
+        --color-stone-300: #4d4136;
+        --color-stone-400: #76695c;
+        --color-stone-500: #9b8c7c;
+        --color-gold-200: #eadbbd;
+        --color-gold-300: #a8834a;
+        --color-gold-400: #a07a41;
+        --color-gold-500: #b38d55;
+        --color-gold-600: #8c6b36;
+        --color-white: #1c1611;
+    }
+
+    /* Deep espresso band inside the light theme (footer, BY CALONE, quote). */
+    .theme-noir {
+        --color-ink-950: #16110d;
+        --color-ink-900: #1e1813;
+        --color-ink-800: #2a221b;
+        --color-ink-700: #372c23;
+        --color-stone-50: #f8f2e8;
+        --color-stone-100: #f1e9dc;
+        --color-stone-200: #e5dac8;
+        --color-stone-300: #cbbda7;
+        --color-stone-400: #a99a84;
+        --color-stone-500: #85776a;
+        --color-gold-200: #f1e3c6;
+        --color-gold-300: #e3c793;
+        --color-gold-400: #d5b37a;
+        --color-gold-500: #c9a36a;
+        --color-gold-600: #a9854e;
+        --color-white: #ffffff;
+    }
+}
+
+@layer components {
+    .container-x { @apply mx-auto w-full max-w-7xl px-5 sm:px-8; }
+    .eyebrow { @apply text-[11px] font-semibold uppercase tracking-[0.35em] text-gold-400; }
+    .h-display { @apply font-display font-medium leading-[1.02] tracking-[-0.01em] text-stone-50; overflow-wrap: break-word; hyphens: auto; }
+    :lang(hy) .h-display { @apply leading-[1.12]; }
+    .text-gold-gradient {
+        background: linear-gradient(90deg, #8c6b36, #d5b37a, #f1e3c6, #c9a36a, #8c6b36);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        @apply animate-shine;
+    }
+    .btn-gold {
+        @apply inline-flex items-center justify-center gap-3 rounded-full bg-stone-50 px-7 py-3.5 text-[11px] font-semibold uppercase tracking-[0.25em] text-ink-950
+               transition duration-500 hover:bg-gold-500 hover:text-[#fff] disabled:opacity-60;
+    }
+    .btn-ghost {
+        @apply inline-flex items-center justify-center gap-3 rounded-full border border-stone-50/25 px-7 py-3.5 text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-50
+               transition duration-500 hover:border-gold-500 hover:text-gold-500 disabled:opacity-60;
+    }
+    .theme-noir .btn-gold { @apply bg-gold-500 text-ink-950 hover:bg-gold-200; }
+    .card { @apply rounded-[1.75rem] border border-white/8 bg-ink-900; }
+    .theme-lux .card { box-shadow: 0 30px 60px -40px rgb(60 40 20 / 0.35); }
+
+    /* Arched frame, the classic perfumery window. */
+    .arch { border-radius: 999px 999px 1.5rem 1.5rem; }
+    .hairline { @apply h-px w-full bg-gradient-to-r from-transparent via-gold-500/50 to-transparent; }
+    .grain {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+    }
+
+    .field {
+        @apply w-full rounded-2xl border border-white/12 bg-ink-900 px-4 py-3 text-stone-100 placeholder:text-stone-500
+               outline-none transition focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20;
+    }
+    .label { @apply mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.2em] text-stone-400; }
+    .error { @apply mt-1 text-xs text-rose-500; }
+    .reveal { @apply translate-y-8 opacity-0 transition duration-1000 ease-out; }
+    .reveal.is-visible { @apply translate-y-0 opacity-100; }
+
+    /* Admin */
+    .a-card { @apply rounded-2xl border border-white/8 bg-ink-900 p-5; }
+    .a-field { @apply w-full rounded-xl border border-white/10 bg-ink-800 px-3 py-2 text-sm text-stone-100 outline-none focus:border-gold-500; }
+    .a-label { @apply mb-1 block text-xs font-medium text-stone-400; }
+    .a-btn { @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition disabled:opacity-50; }
+}

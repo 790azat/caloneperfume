@@ -1,0 +1,38 @@
+# Run database migrations against the production database.
+# GitHub → Actions → "Migrate database" → Run workflow.
+# Needs repository secrets: DB_URL (e.g. the Neon connection string) and APP_KEY;
+# ADMIN_EMAIL / ADMIN_PASSWORD are used only when "seed" is ticked.
+name: Migrate database
+
+on:
+  workflow_dispatch:
+    inputs:
+      seed:
+        description: 'Also create the admin user and starter content'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    env:
+      APP_ENV: production
+      APP_KEY: ${{ secrets.APP_KEY }}
+      DB_CONNECTION: ${{ secrets.DB_CONNECTION || 'pgsql' }}
+      DB_URL: ${{ secrets.DB_URL }}
+      ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo, pdo_pgsql, pdo_mysql, mbstring
+          coverage: none
+      - run: composer install --no-dev --prefer-dist --no-interaction --no-progress
+      - run: php artisan migrate --force
+      - if: ${{ inputs.seed }}
+        run: php artisan db:seed --force

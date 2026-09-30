@@ -1,0 +1,7 @@
+node_modules
+vendor
+tests
+storage/logs/*
+storage/framework/views/*
+database/database.sqlite
+.env
